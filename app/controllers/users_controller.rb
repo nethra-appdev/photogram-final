@@ -1,9 +1,16 @@
 class UsersController < ApplicationController
-  # skip_before_action(:force_user_sign_in, { :only => [:new_registration_form, :create] })
+  skip_before_action(:force_user_sign_in, { :only => [:new_registration_form, :create] })
   
   def index
     @users = User.all.order({ :username => :asc })
     render({ :template => "users/index.html" })
+  end
+
+  def show
+    the_username = params.fetch("the_username")
+    @user = User.where({ :username => the_username }).at(0)
+
+    render({ :template => "users/show.html.erb" })
   end
 
   def new_registration_form
@@ -16,8 +23,6 @@ class UsersController < ApplicationController
     @user.password = params.fetch("query_password")
     @user.password_confirmation = params.fetch("query_password_confirmation")
     @user.username = params.fetch("query_username")
-    @user.likes_count = params.fetch("query_likes_count")
-    @user.comments_count = params.fetch("query_comments_count")
     @user.private = params.fetch("query_private", false)
 
     save_status = @user.save
@@ -41,8 +46,6 @@ class UsersController < ApplicationController
     @user.password = params.fetch("query_password")
     @user.password_confirmation = params.fetch("query_password_confirmation")
     @user.username = params.fetch("query_username")
-    @user.likes_count = params.fetch("query_likes_count")
-    @user.comments_count = params.fetch("query_comments_count")
     @user.private = params.fetch("query_private", false)
     
     if @user.valid?

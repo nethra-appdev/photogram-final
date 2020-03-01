@@ -18,23 +18,30 @@
    <nav>
       <ul>
         <li>
-          <a href="/user_sign_in">Sign In</a>
+          <a href="/users">All users</a>
         </li>
         <li>
-          <a href="/user_sign_up">Sign Up</a>
+          <a href="/photos">All public photos</a>
+        </li>
+      
+        
+      <% if logged_in? %>
+        <li>
+          <%=displayusername%>
+        </li>
+
+        <li>
+          <a href="/user_sign_out">Sign out</a>
+        </li>
+      <% else %>
+          <li>
+          <a href="/user_sign_in">Sign in</a>
         </li>
         <li>
-          <a href="/user_sign_out">Sign Out</a>
+          <a href="/user_sign_up">Sign up</a>
         </li>
-        <li>
-          <a href="/users">Users</a>
-        </li>
-        <li>
-          <a href="/photos">Photos</a>
-        </li>
-        <li>
-          <%=session.fetch(:user_id)%>
-        </li>
+      <% end %>
+    
       </ul>
     </nav>
     <% if notice.present? %>
