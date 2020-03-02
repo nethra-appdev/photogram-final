@@ -1,4 +1,7 @@
 class PhotosController < ApplicationController
+
+  skip_before_action(:force_user_sign_in, { :only => [:index] })
+
   def index
     @photos = Photo.all.order({ :created_at => :desc })
 
